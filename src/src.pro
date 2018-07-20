@@ -1,25 +1,20 @@
-QT       += core network
-QT       -= gui
-
-TARGET    = qhttp
 TEMPLATE  = lib
 
-PRJDIR    = ..
-include($$PRJDIR/commondir.pri)
+CONFIG += staticlib c++14
 
-DEFINES       *= QHTTP_MEMORY_LOG=0
-win32:DEFINES *= QHTTP_EXPORT
+QT += core network
+QT -= gui
 
-# Joyent http_parser
-SOURCES  += $$PRJDIR/3rdparty/http-parser/http_parser.c
-HEADERS  += $$PRJDIR/3rdparty/http-parser/http_parser.h
+TARGET = $$qtLibraryTarget(qhttp)
+VERSION = 1.0.0
 
-SOURCES  += \
-    qhttpabstracts.cpp \
-    qhttpserverconnection.cpp \
-    qhttpserverrequest.cpp \
-    qhttpserverresponse.cpp \
-    qhttpserver.cpp
+DEFINES += QHTTP_MEMORY_LOG=0
+win32:DEFINES += QHTTP_EXPORT
+
+# http-parser
+HEADERS  += ../3rdparty/http-parser/http_parser.h
+SOURCES  += ../3rdparty/http-parser/http_parser.c
+INCLUDEPATH += ../3rdparty
 
 HEADERS  += \
     qhttpfwd.hpp \
@@ -29,7 +24,14 @@ HEADERS  += \
     qhttpserverresponse.hpp \
     qhttpserver.hpp
 
-contains(DEFINES, QHTTP_HAS_CLIENT) {
+SOURCES  += \
+    qhttpabstracts.cpp \
+    qhttpserverconnection.cpp \
+    qhttpserverrequest.cpp \
+    qhttpserverresponse.cpp \
+    qhttpserver.cpp
+
+qhttp_has_client {
     SOURCES += \
         qhttpclientrequest.cpp \
         qhttpclientresponse.cpp \
