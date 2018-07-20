@@ -6,7 +6,8 @@ QT += core network
 QT -= gui
 
 TARGET = $$qtLibraryTarget(qhttp)
-VERSION = 1.0.0
+DESTDIR = $$ROOT_DIR/lib
+VERSION = 3.1.0
 
 DEFINES += QHTTP_MEMORY_LOG=0
 win32:DEFINES += QHTTP_EXPORT
@@ -17,28 +18,28 @@ SOURCES  += ../3rdparty/http-parser/http_parser.c
 INCLUDEPATH += ../3rdparty
 
 HEADERS  += \
-    qhttpfwd.hpp \
-    qhttpabstracts.hpp \
-    qhttpserverconnection.hpp \
-    qhttpserverrequest.hpp \
-    qhttpserverresponse.hpp \
-    qhttpserver.hpp
+	qhttpfwd.hpp \
+	qhttpabstracts.hpp \
+	qhttpserverconnection.hpp \
+	qhttpserverrequest.hpp \
+	qhttpserverresponse.hpp \
+	qhttpserver.hpp
 
 SOURCES  += \
-    qhttpabstracts.cpp \
-    qhttpserverconnection.cpp \
-    qhttpserverrequest.cpp \
-    qhttpserverresponse.cpp \
-    qhttpserver.cpp
+	qhttpabstracts.cpp \
+	qhttpserverconnection.cpp \
+	qhttpserverrequest.cpp \
+	qhttpserverresponse.cpp \
+	qhttpserver.cpp
 
 qhttp_has_client {
-    SOURCES += \
-        qhttpclientrequest.cpp \
-        qhttpclientresponse.cpp \
-        qhttpclient.cpp
+	SOURCES += \
+		qhttpclientrequest.cpp \
+		qhttpclientresponse.cpp \
+		qhttpclient.cpp
 
-    HEADERS += \
-        qhttpclient.hpp \
-        qhttpclientresponse.hpp \
-        qhttpclientrequest.hpp
+	HEADERS += \
+		qhttpclient.hpp \
+		qhttpclientresponse.hpp \
+		qhttpclientrequest.hpp
 }

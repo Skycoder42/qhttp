@@ -24,25 +24,25 @@ namespace details {
 
 struct HttpBase
 {
-    QString     iversion;
-    THeaderHash iheaders;
+	QString     iversion;
+	THeaderHash iheaders;
 }; // struct HttpBase
 
 ///////////////////////////////////////////////////////////////////////////////
 
 struct HttpRequestBase : public HttpBase
 {
-    QUrl        iurl;
-    THttpMethod imethod;
+	QUrl        iurl;
+	THttpMethod imethod;
 }; // HttpRequestBase
 
 ///////////////////////////////////////////////////////////////////////////////
 
 struct HttpResponseBase : public HttpBase
 {
-    TStatusCode istatus = ESTATUS_BAD_REQUEST;
+	TStatusCode istatus = ESTATUS_BAD_REQUEST;
 
-    HttpResponseBase() { iversion = "1.1"; }
+	HttpResponseBase() { iversion = QStringLiteral("1.1"); }
 }; // HttpResponseBase
 
 ///////////////////////////////////////////////////////////////////////////////
