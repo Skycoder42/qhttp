@@ -25,60 +25,60 @@ namespace server {
 class QHttpServerPrivate
 {
 public:
-    template<class TServer>
-    class BackendServer : public TServer
-    {
-    public:
-        QHttpServer*    iserver;
+	template<class TServer>
+	class BackendServer : public TServer
+	{
+	public:
+		QHttpServer*    iserver;
 
-        explicit BackendServer(QHttpServer* s) : TServer(s), iserver(s) {
-        }
+		explicit BackendServer(QHttpServer* s) : TServer(s), iserver(s) {
+		}
 
-    protected:
-        // if it's a QTcpServer
-        virtual void    incomingConnection(qintptr socketDescriptor) {
-            iserver->incomingConnection(socketDescriptor);
-        }
+	protected:
+		// if it's a QTcpServer
+		virtual void    incomingConnection(qintptr socketDescriptor) {
+			iserver->incomingConnection(socketDescriptor);
+		}
 
-        // if it's a QLocalServer
-        virtual void    incomingConnection(quintptr socketDescriptor) {
-            iserver->incomingConnection((qintptr) socketDescriptor);
-        }
-    };
+		// if it's a QLocalServer
+		virtual void    incomingConnection(quintptr socketDescriptor) {
+			iserver->incomingConnection((qintptr) socketDescriptor);
+		}
+	};
 
-    using TTcpServer   = QScopedPointer<BackendServer<QTcpServer>>;
-    using TLocalServer = QScopedPointer<BackendServer<QLocalServer>>;
-
-public:
-    quint32         itimeOut = 0;
-    TServerHandler  ihandler = nullptr;
-
-    TBackend        ibackend = ETcpSocket;
-
-    TTcpServer      itcpServer;
-    TLocalServer    ilocalServer;
+	using TTcpServer   = QScopedPointer<BackendServer<QTcpServer>>;
+	using TLocalServer = QScopedPointer<BackendServer<QLocalServer>>;
 
 public:
-    explicit    QHttpServerPrivate() {
-        QHTTP_LINE_DEEPLOG
-    }
+	quint32         itimeOut = 0;
+	TServerHandler  ihandler = nullptr;
 
-    virtual    ~QHttpServerPrivate() {
-        QHTTP_LINE_DEEPLOG
-    }
+	TBackend        ibackend = ETcpSocket;
 
-    void        initialize(TBackend backend, QHttpServer* parent) {
-        ibackend = backend;
+	TTcpServer      itcpServer;
+	TLocalServer    ilocalServer;
 
-        if ( ibackend == ETcpSocket ) {
-            itcpServer.reset( new BackendServer<QTcpServer>(parent) );
-            ilocalServer.reset( nullptr );
+public:
+	explicit    QHttpServerPrivate() {
+		QHTTP_LINE_DEEPLOG
+	}
 
-        } else if ( ibackend == ELocalSocket ) {
-            itcpServer.reset( nullptr );
-            ilocalServer.reset( new BackendServer<QLocalServer>(parent) );
-        }
-    }
+	virtual    ~QHttpServerPrivate() {
+		QHTTP_LINE_DEEPLOG
+	}
+
+	void        initialize(TBackend backend, QHttpServer* parent) {
+		ibackend = backend;
+
+		if ( ibackend == ETcpSocket ) {
+			itcpServer.reset( new BackendServer<QTcpServer>(parent) );
+			ilocalServer.reset( nullptr );
+
+		} else if ( ibackend == ELocalSocket ) {
+			itcpServer.reset( nullptr );
+			ilocalServer.reset( new BackendServer<QLocalServer>(parent) );
+		}
+	}
 
 };
 
