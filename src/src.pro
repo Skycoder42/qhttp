@@ -6,7 +6,6 @@ QT += core network
 QT -= gui
 
 TARGET = $$qtLibraryTarget(qhttp)
-DESTDIR = $$ROOT_DIR/lib
 VERSION = 3.1.0
 
 DEFINES += QHTTP_MEMORY_LOG=0
@@ -43,3 +42,6 @@ qhttp_has_client {
 		qhttpclientresponse.hpp \
 		qhttpclientrequest.hpp
 }
+
+CONFIG += qdep_link_export
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
